@@ -3,7 +3,7 @@ pipeline {
 
    environment {
      SERVICE_NAME = "mssql-db"     
-     REPOSITORY_TAG="${YOUR_DOCKERHUB_USERNAME}/${ORGANIZATION_NAME}-${SERVICE_NAME}:${BUILD_ID}"
+     GITCOMMITSHA = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
    }
 
    stages {
@@ -14,11 +14,12 @@ pipeline {
          }
       }
 
+      
+      }
+
       stage('Deploy to Cluster') {
           steps {
               sh 'kubectl apply -f deploy.yaml'
                }
           }
-      }
    }
-}
