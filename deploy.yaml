@@ -46,7 +46,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 1Gi
+      storage: 2Gi
 ---
 # How do we want it implemented
 apiVersion: v1
@@ -56,7 +56,7 @@ metadata:
 spec:
   storageClassName: mylocalstorage
   capacity:
-    storage: 1Gi
+    storage: 2Gi
   accessModes:
     - ReadWriteOnce
   hostPath:
