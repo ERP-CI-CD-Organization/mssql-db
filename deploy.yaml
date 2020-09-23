@@ -1,3 +1,32 @@
+# PVC and PV
+# What do want?
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mssql-pvc
+spec:
+  storageClassName: mylocalstorage
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+---
+# How do we want it implemented
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: local-storage
+spec:
+  storageClassName: mylocalstorage
+  capacity:
+    storage: 2Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/mssqldb/"
+    type: DirectoryOrCreate
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -35,34 +64,7 @@ spec:
           # pointer to the configuration of HOW we want the mount to be implemented
           persistentVolumeClaim:
             claimName: mssql-pvc
----
-# What do want?
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: mssql-pvc
-spec:
-  storageClassName: mylocalstorage
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 2Gi
----
-# How do we want it implemented
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: local-storage
-spec:
-  storageClassName: mylocalstorage
-  capacity:
-    storage: 2Gi
-  accessModes:
-    - ReadWriteOnce
-  hostPath:
-    path: "/mnt/mssqldb/"
-    type: DirectoryOrCreate
+
 ---
 kind: Service
 apiVersion: v1
