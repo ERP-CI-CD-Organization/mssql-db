@@ -43,7 +43,7 @@ spec:
     spec:
       containers:
       - name: mssqldb
-        image: mcr.microsoft.com/mssql/server:2019-latest
+        image: mcr.microsoft.com/mssql/server:2019-GA-ubuntu-16.04
         resources:
           requests:
             cpu: 500m
@@ -58,7 +58,7 @@ spec:
             value: "yourStrong(!)Password"
         volumeMounts:
           - name: db-persistent-storage
-            mountPath: /var/opt/mssql
+            mountPath: /var/opt/mssql/data
       volumes:
         - name: db-persistent-storage
           # pointer to the configuration of HOW we want the mount to be implemented
